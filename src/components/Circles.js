@@ -1,32 +1,83 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity
+} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-const Circles = props => {
-  const circleStyles = {
-    height: 80,
-    width: 80,
-    borderRadius: 80,
-    margin: 5
-  };
+class Circles extends React.Component {
+
+  onPressAnimationHandler = (answerStatus, circle) => {
+    // if (
+    //   answerStatus === false &&
+    //   answerStatus !== null
+    // ) {
+    //   circle.wobble()
+    // }
+    // else if (answerStatus === true){
+    //   circle.rubberBand()
+    // }
+    // else {
+    //   return
+    // } 
+
+    circle.rubberBand();
+
+  }
 
 
-
-  console.log(props)
-
+  render(){
   return (
     <View style={styles.circleContainer}>
-      <TouchableOpacity onPress={() => props.colorPickedHandler(props.colorOne)} style={{ backgroundColor: props.colorOne, ...circleStyles }} />
-      <TouchableOpacity onPress={() => props.colorPickedHandler(props.colorTwo)} style={{ backgroundColor: props.colorTwo, ...circleStyles }} />
-      <TouchableOpacity onPress={() => props.colorPickedHandler(props.colorThree)} style={{ backgroundColor: props.colorThree, ...circleStyles }} />
-      <Text answer={props.answer}>{console.log(props.answer)}</Text>
+
+    <Animatable.View ref={(ref) =>  {
+      this.circleOneRef = ref;
+    }}>
+      <TouchableOpacity
+        onPress={() => {this.props.colorPickedHandler(this.props.colorOne)
+          this.onPressAnimationHandler(this.props.answerStatus, this.circleOneRef)
+         }}
+        style={{ backgroundColor: this.props.colorOne, ...circleStyles }}
+      />
+      </Animatable.View >
+
+      <Animatable.View ref={(ref) =>  {
+      this.circleTwoRef = ref;
+    }}>
+      <TouchableOpacity
+        onPress={() => {this.props.colorPickedHandler(this.props.colorTwo)
+          this.onPressAnimationHandler(this.props.answerStatus, this.circleTwoRef)
+        }}
+        style={{ backgroundColor: this.props.colorTwo, ...circleStyles }}
+      />
+         </Animatable.View>
+
+         <Animatable.View ref={(ref) =>  {
+      this.circleThreeRef = ref;
+    }}>
+      <TouchableOpacity
+        onPress={() =>{ this.props.colorPickedHandler(this.props.colorThree); this.props.answerStatus === false &&  this.onPressAnimationHandler(this.props.answerStatus, this.circleThreeRef)}}
+        style={{ backgroundColor: this.props.colorThree, ...circleStyles }}
+      />
+      </Animatable.View>
     </View>
   );
+}
 };
 
 export default Circles;
+
 const styles = StyleSheet.create({
   circleContainer: {
     flexDirection: 'row'
   }
 });
+
+const circleStyles = {
+  height: 80,
+  width: 80,
+  borderRadius: 80,
+  margin: 5
+};
