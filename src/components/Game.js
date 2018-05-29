@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import Circles from './Circles';
+import * as Animatable from 'react-native-animatable';
 
 export default class Game extends React.Component {
   constructor(props) {
@@ -47,15 +48,15 @@ export default class Game extends React.Component {
 
   
 
-    let answerMsg = '';
+    let answerMsg =  <Animatable.Text></Animatable.Text>;
   
     if (this.state.answerStatus === true) {
-      answerMsg = <Text style={{fontSize: 20}}>You picked the right color!</Text>;
+      answerMsg =  <Animatable.Text key={this.state.answerStatus} animation="flipInY" iterationCount={1} style={{fontSize: 15}}>You picked the right color!</Animatable.Text>;
     } else if (
       this.state.answerStatus === false &&
       this.state.answerStatus !== null
     ) {
-      answerMsg = <Text style={{fontSize: 20}}>Wrong try again</Text>;
+      answerMsg = <Animatable.Text key={this.state.answerStatus} animation="flipInY" iterationCount={1} style={{fontSize: 15}}>Wrong try again</Animatable.Text>;
     }
     return (
       <View>
@@ -78,7 +79,7 @@ export default class Game extends React.Component {
             answerStatus={this.state.answerStatus}
           />
           <Text style={{ fontSize: 25 }}>{this.state.currentColor}</Text>
-          <Text>{answerMsg}</Text>
+          {answerMsg}
         </View>
       </View>
     );
