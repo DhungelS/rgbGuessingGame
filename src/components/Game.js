@@ -7,7 +7,7 @@ export default class Game extends React.Component {
     super(props);
 
     this.state = {
-      answerMsg: null,
+      answerStatus: null,
       colorArr: [],
       currentColor: null,
       score: 0
@@ -35,23 +35,27 @@ export default class Game extends React.Component {
 
   colorPickedHandler = color => {
     if (this.state.currentColor === color) {
-      this.setState({ answerStatus: true, score: this.state.score+=1 }, () => {
+      this.setState({ answerStatus: true, score: this.state.score+=1 })
         this.componentDidMount();
-      });
+      
     } else {
       this.setState({ answerStatus: false });
     }
   };
 
   render() {
+
+  
+
     let answerMsg = '';
+  
     if (this.state.answerStatus === true) {
-      answerMsg = <Text>You picked the right color!</Text>;
+      answerMsg = <Text style={{fontSize: 20}}>You picked the right color!</Text>;
     } else if (
       this.state.answerStatus === false &&
       this.state.answerStatus !== null
     ) {
-      answerMsg = <Text>Wrong try again</Text>;
+      answerMsg = <Text style={{fontSize: 20}}>Wrong try again</Text>;
     }
     return (
       <View>
@@ -66,6 +70,7 @@ export default class Game extends React.Component {
         </View>
         <View style={styles.container}>
           <Circles
+            key={this.state.currentColor}
             colorPickedHandler={this.colorPickedHandler}
             colorOne={this.state.colorArr[0]}
             colorTwo={this.state.colorArr[1]}
@@ -79,6 +84,7 @@ export default class Game extends React.Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
